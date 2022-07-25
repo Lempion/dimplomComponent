@@ -26,6 +26,16 @@ $container = $containerBuilder->build();
 // Route
 $dispatcher = FastRoute\simpleDispatcher(function (FastRoute\RouteCollector $r) {
     $r->addRoute('GET', '/', ['App\controllers\HomeController', 'main']);
+
+    $r->addRoute('GET', '/register', ['App\controllers\HomeController', 'register']);
+
+    $r->addRoute('GET', '/login', ['App\controllers\HomeController', 'login']);
+
+    $r->addRoute('GET', '/admin/create_user', ['App\controllers\HomeController', 'adminAddUser']);
+
+    $r->addRoute('GET', '/admin/change_status', ['App\controllers\HomeController', 'adminChangeStatus']);
+
+//    $r->addRoute('GET', '/admin/add_user', ['App\controllers\AccountController', 'createUser']);
 });
 
 $httpMethod = $_SERVER['REQUEST_METHOD'];
