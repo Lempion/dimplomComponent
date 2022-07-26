@@ -38,7 +38,7 @@ class AccountController
 
     public function login()
     {
-        if ($_POST['remember'] == 1) {
+        if ($_POST['remember'] == 'on') {
             $rememberDuration = (int)(60 * 60 * 24 * 365.25);
         } else {
             $rememberDuration = null;

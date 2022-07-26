@@ -1,4 +1,4 @@
-<?php $this->layout('template', ['title' => 'Главная']) ?>
+<?php $this->layout('template', ['title' => 'Главная']);?>
 
 <main id="js-page-content" role="main" class="page-content mt-3">
     <?php echo flash();?>

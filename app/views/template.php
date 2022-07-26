@@ -33,7 +33,7 @@
 </head>
 <body class="mod-bg-1 mod-nav-link">
 
-<?php if (!($this->e($auth) || $this->e($reg))):?>
+<?php if (!($this->e($auth) || $this->e($reg))): ?>
     <nav class="navbar navbar-expand-lg navbar-dark bg-primary bg-primary-gradient">
         <a class="navbar-brand d-flex align-items-center fw-500" href="/"><img alt="logo"
                                                                                class="d-inline-block align-top mr-2"
@@ -50,12 +50,18 @@
                 </li>
             </ul>
             <ul class="navbar-nav ml-auto">
-                <li class="nav-item">
-                    <a class="nav-link" href="login.php">Войти</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Выйти</a>
-                </li>
+                <?php if (isset($_SESSION['auth_logged_in'])): ?>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Выйти</a>
+                    </li>
+                <?php else: ?>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/login">Войти</a>
+                    </li>
+
+                <?php endif; ?>
+
+
             </ul>
         </div>
     </nav>
