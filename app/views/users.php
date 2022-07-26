@@ -11,7 +11,7 @@
     </div>
     <div class="row">
         <div class="col-xl-12">
-            <a class="btn btn-success" href="admin_create_user.php">Добавить</a>
+            <a class="btn btn-success" href="/admin/create_user">Добавить</a>
 
             <div class="border-faded bg-faded p-3 mb-g d-flex mt-3">
                 <input type="text" id="js-filter-contacts" name="filter-contacts"
@@ -45,16 +45,16 @@
                                 <i class="fa-solid fa-angle-down d-inline-block ml-1 fs-md"></i>
                             </a>
                             <div class="dropdown-menu">
-                                <a class="dropdown-item" href="edit.html">
+                                <a class="dropdown-item" href="/user">
                                     <i class="fa fa-edit"></i>
                                     Редактировать</a>
-                                <a class="dropdown-item" href="security.html">
+                                <a class="dropdown-item" href="/security">
                                     <i class="fa fa-lock"></i>
                                     Безопасность</a>
-                                <a class="dropdown-item" href="admin_change_status.php">
+                                <a class="dropdown-item" href="/status">
                                     <i class="fa fa-sun"></i>
                                     Установить статус</a>
-                                <a class="dropdown-item" href="media.html">
+                                <a class="dropdown-item" href="/media">
                                     <i class="fa fa-camera"></i>
                                     Загрузить аватар
                                 </a>
@@ -112,16 +112,16 @@
                                 <i class="fa-solid fa-angle-down d-inline-block ml-1 fs-md"></i>
                             </a>
                             <div class="dropdown-menu">
-                                <a class="dropdown-item" href="edit.html">
+                                <a class="dropdown-item" href="/user">
                                     <i class="fa fa-edit"></i>
                                     Редактировать</a>
-                                <a class="dropdown-item" href="security.html">
+                                <a class="dropdown-item" href="/security">
                                     <i class="fa fa-lock"></i>
                                     Безопасность</a>
-                                <a class="dropdown-item" href="admin_change_status.php">
+                                <a class="dropdown-item" href="/status">
                                     <i class="fa fa-sun"></i>
                                     Установить статус</a>
-                                <a class="dropdown-item" href="media.html">
+                                <a class="dropdown-item" href="/media">
                                     <i class="fa fa-camera"></i>
                                     Загрузить аватар
                                 </a>
@@ -179,16 +179,16 @@
                                 <i class="fa-solid fa-angle-down d-inline-block ml-1 fs-md"></i>
                             </a>
                             <div class="dropdown-menu">
-                                <a class="dropdown-item" href="edit.html">
+                                <a class="dropdown-item" href="/user">
                                     <i class="fa fa-edit"></i>
                                     Редактировать</a>
-                                <a class="dropdown-item" href="security.html">
+                                <a class="dropdown-item" href="/security">
                                     <i class="fa fa-lock"></i>
                                     Безопасность</a>
-                                <a class="dropdown-item" href="admin_change_status.php">
+                                <a class="dropdown-item" href="/status">
                                     <i class="fa fa-sun"></i>
                                     Установить статус</a>
-                                <a class="dropdown-item" href="media.html">
+                                <a class="dropdown-item" href="/media">
                                     <i class="fa fa-camera"></i>
                                     Загрузить аватар
                                 </a>
@@ -246,16 +246,16 @@
                                 <i class="fa-solid fa-angle-down d-inline-block ml-1 fs-md"></i>
                             </a>
                             <div class="dropdown-menu">
-                                <a class="dropdown-item" href="edit.html">
+                                <a class="dropdown-item" href="/user">
                                     <i class="fa fa-edit"></i>
                                     Редактировать</a>
-                                <a class="dropdown-item" href="security.html">
+                                <a class="dropdown-item" href="/security">
                                     <i class="fa fa-lock"></i>
                                     Безопасность</a>
-                                <a class="dropdown-item" href="admin_change_status.php">
+                                <a class="dropdown-item" href="/status">
                                     <i class="fa fa-sun"></i>
                                     Установить статус</a>
-                                <a class="dropdown-item" href="media.html">
+                                <a class="dropdown-item" href="/media">
                                     <i class="fa fa-camera"></i>
                                     Загрузить аватар
                                 </a>
@@ -313,16 +313,16 @@
                                 <i class="fa-solid fa-angle-down d-inline-block ml-1 fs-md"></i>
                             </a>
                             <div class="dropdown-menu">
-                                <a class="dropdown-item" href="edit.html">
+                                <a class="dropdown-item" href="/user">
                                     <i class="fa fa-edit"></i>
                                     Редактировать</a>
-                                <a class="dropdown-item" href="security.html">
+                                <a class="dropdown-item" href="/security">
                                     <i class="fa fa-lock"></i>
                                     Безопасность</a>
-                                <a class="dropdown-item" href="admin_change_status.php">
+                                <a class="dropdown-item" href="/status">
                                     <i class="fa fa-sun"></i>
                                     Установить статус</a>
-                                <a class="dropdown-item" href="media.html">
+                                <a class="dropdown-item" href="/media">
                                     <i class="fa fa-camera"></i>
                                     Загрузить аватар
                                 </a>
@@ -380,16 +380,16 @@
                                 <i class="fa-solid fa-angle-down d-inline-block ml-1 fs-md"></i>
                             </a>
                             <div class="dropdown-menu">
-                                <a class="dropdown-item" href="edit.html">
+                                <a class="dropdown-item" href="/user">
                                     <i class="fa fa-edit"></i>
                                     Редактировать</a>
-                                <a class="dropdown-item" href="security.html">
+                                <a class="dropdown-item" href="/security">
                                     <i class="fa fa-lock"></i>
                                     Безопасность</a>
-                                <a class="dropdown-item" href="admin_change_status.php">
+                                <a class="dropdown-item" href="/status">
                                     <i class="fa fa-sun"></i>
                                     Установить статус</a>
-                                <a class="dropdown-item" href="media.html">
+                                <a class="dropdown-item" href="/media">
                                     <i class="fa fa-camera"></i>
                                     Загрузить аватар
                                 </a>
@@ -447,16 +447,16 @@
                                 <i class="fa-solid fa-angle-down d-inline-block ml-1 fs-md"></i>
                             </a>
                             <div class="dropdown-menu">
-                                <a class="dropdown-item" href="edit.html">
+                                <a class="dropdown-item" href="/user">
                                     <i class="fa fa-edit"></i>
                                     Редактировать</a>
-                                <a class="dropdown-item" href="security.html">
+                                <a class="dropdown-item" href="/security">
                                     <i class="fa fa-lock"></i>
                                     Безопасность</a>
-                                <a class="dropdown-item" href="admin_change_status.php">
+                                <a class="dropdown-item" href="/status">
                                     <i class="fa fa-sun"></i>
                                     Установить статус</a>
-                                <a class="dropdown-item" href="media.html">
+                                <a class="dropdown-item" href="/media">
                                     <i class="fa fa-camera"></i>
                                     Загрузить аватар
                                 </a>
@@ -514,16 +514,16 @@
                                 <i class="fa-solid fa-angle-down d-inline-block ml-1 fs-md"></i>
                             </a>
                             <div class="dropdown-menu">
-                                <a class="dropdown-item" href="edit.html">
+                                <a class="dropdown-item" href="/user">
                                     <i class="fa fa-edit"></i>
                                     Редактировать</a>
-                                <a class="dropdown-item" href="security.html">
+                                <a class="dropdown-item" href="/security">
                                     <i class="fa fa-lock"></i>
                                     Безопасность</a>
-                                <a class="dropdown-item" href="admin_change_status.php">
+                                <a class="dropdown-item" href="/status">
                                     <i class="fa fa-sun"></i>
                                     Установить статус</a>
-                                <a class="dropdown-item" href="media.html">
+                                <a class="dropdown-item" href="/media">
                                     <i class="fa fa-camera"></i>
                                     Загрузить аватар
                                 </a>

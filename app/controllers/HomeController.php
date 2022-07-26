@@ -28,16 +28,35 @@ class HomeController
         echo $this->templates->render('login');
     }
 
-    public function adminAddUser()
+    public function profile()
     {
-        echo $this->templates->render('admin_create_user');
+        echo $this->templates->render('profile');
     }
 
-    public function adminChangeStatus()
+    public function status($vars = null)
     {
-        echo $this->templates->render('admin_change_status');
+        echo $this->templates->render('status');
     }
 
+    public function user($vars = null)
+    {
+        echo $this->templates->render('user');
+    }
+
+    public function createUser()
+    {
+        echo $this->templates->render('create_user');
+    }
+
+    public function media()
+    {
+        echo $this->templates->render('media');
+    }
+
+ public function security()
+    {
+        echo $this->templates->render('security');
+    }
 
 
 }
