@@ -18,6 +18,14 @@ $containerBuilder->addDefinitions([
         $pass = '';
 
         return new PDO("{$db}:host={$host};dbname={$dbName}", $login, $pass);
+    },
+
+    \League\Plates\Engine::class => function () {
+        return new \League\Plates\Engine('../app/views');
+    },
+
+    \Delight\Auth\Auth::class => function ($container) {
+        return new \Delight\Auth\Auth($container->get('PDO'));
     }
 ]);
 
@@ -51,6 +59,10 @@ $dispatcher = FastRoute\simpleDispatcher(function (FastRoute\RouteCollector $r) 
     $r->addRoute('GET', '/security', ['App\controllers\HomeController', 'security']);
 
     $r->addRoute('GET', '/admin/create_user', ['App\controllers\HomeController', 'createUser']);
+
+    $r->addRoute('POST', '/reg', ['App\controllers\AccountController', 'register']);
+
+    $r->addRoute('POST', '/log', ['App\controllers\AccountController', 'login']);
 
 });
 

@@ -1,9 +1,7 @@
 <?php $this->layout('template', ['title' => 'Главная']) ?>
 
 <main id="js-page-content" role="main" class="page-content mt-3">
-    <div class="alert alert-success">
-        Профиль успешно обновлен.
-    </div>
+    <?php echo flash();?>
     <div class="subheader">
         <h1 class="subheader-title">
             <i class='subheader-icon fa-solid fa-users'></i> Список пользователей

@@ -8,9 +8,9 @@ class HomeController
 {
     private $templates;
 
-    public function __construct()
+    public function __construct(Engine $engine)
     {
-        $this->templates = new Engine('../app/views');
+        $this->templates = $engine;
     }
 
     public function main()
@@ -53,7 +53,7 @@ class HomeController
         echo $this->templates->render('media');
     }
 
- public function security()
+    public function security()
     {
         echo $this->templates->render('security');
     }
