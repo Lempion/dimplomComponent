@@ -52,7 +52,7 @@
             <ul class="navbar-nav ml-auto">
                 <?php if (isset($_SESSION['auth_logged_in'])): ?>
                     <li class="nav-item">
-                        <a class="nav-link" href="#">Выйти</a>
+                        <a class="nav-link" href="/logout">Выйти</a>
                     </li>
                 <?php else: ?>
                     <li class="nav-item">

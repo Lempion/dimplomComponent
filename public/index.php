@@ -26,7 +26,11 @@ $containerBuilder->addDefinitions([
 
     \Delight\Auth\Auth::class => function ($container) {
         return new \Delight\Auth\Auth($container->get('PDO'));
-    }
+    },
+
+    \Aura\SqlQuery\QueryFactory::class => function () {
+        return new \Aura\SqlQuery\QueryFactory('mysql');
+    },
 ]);
 
 $container = $containerBuilder->build();
@@ -40,29 +44,28 @@ $dispatcher = FastRoute\simpleDispatcher(function (FastRoute\RouteCollector $r) 
 
     $r->addRoute('GET', '/login', ['App\controllers\HomeController', 'login']);
 
-    $r->addRoute('GET', '/profile', ['App\controllers\HomeController', 'profile']);
+    $r->addRoute('GET', '/profile/{id:\d+}', ['App\controllers\HomeController', 'profile']);
 
-    $r->addRoute('GET', '/admin/status/{id:\d+}', ['App\controllers\HomeController', 'status']);
+    $r->addRoute('GET', '/status/{id:\d+}', ['App\controllers\HomeController', 'status']);
 
-    $r->addRoute('GET', '/status', ['App\controllers\HomeController', 'status']);
+    $r->addRoute('GET', '/user/{id:\d+}', ['App\controllers\HomeController', 'user']);
 
-    $r->addRoute('GET', '/admin/user/{id:\d+}', ['App\controllers\HomeController', 'user']);
+    $r->addRoute('GET', '/media/{id:\d+}', ['App\controllers\HomeController', 'media']);
 
-    $r->addRoute('GET', '/user', ['App\controllers\HomeController', 'user']);
+    $r->addRoute('GET', '/security/{id:\d+}', ['App\controllers\HomeController', 'security']);
 
-    $r->addRoute('GET', '/admin/media/{id:\d+}', ['App\controllers\HomeController', 'media']);
-
-    $r->addRoute('GET', '/media', ['App\controllers\HomeController', 'media']);
-
-    $r->addRoute('GET', '/admin/security/{id:\d+}', ['App\controllers\HomeController', 'security']);
-
-    $r->addRoute('GET', '/security', ['App\controllers\HomeController', 'security']);
-
-    $r->addRoute('GET', '/admin/create_user', ['App\controllers\HomeController', 'createUser']);
+    $r->addRoute('GET', '/create_user', ['App\controllers\HomeController', 'createUser']);
 
     $r->addRoute('POST', '/reg', ['App\controllers\AccountController', 'register']);
 
     $r->addRoute('POST', '/log', ['App\controllers\AccountController', 'login']);
+
+    $r->addRoute('GET', '/logout', ['App\controllers\AccountController', 'logout']);
+
+    $r->addRoute('POST', '/update_data/{changeId:\d+}', ['App\controllers\AccountController', 'updateData']);
+
+    $r->addRoute('POST', '/update_status/{changeId:\d+}', ['App\controllers\AccountController', 'updateData']);
+
 
 });
 
