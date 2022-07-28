@@ -2,6 +2,7 @@
 
 namespace App\controllers;
 
+use App\Image;
 use App\QueryBuilder;
 use App\Redirect;
 use Delight\Auth\Auth;
@@ -19,29 +20,21 @@ class AccountController
         $this->queryBuilder = $queryBuilder;
     }
 
-    public function register()
+    public function register($returnId = false)
     {
         try {
-//            $faker = Factory::create();
-//            for ($i = 0; $i < 10; $i++) {
-//                $id = $this->auth->register($faker->email, $faker->domainWord, '');
-//
-//                $this->queryBuilder->update('users', [
-//                    'username' => $faker->name,
-//                    'state' => $faker->randomElement(['success', 'warning', 'danger']),
-//                    'position' => $faker->jobTitle . ', ' . $faker->company,
-//                    'phone' => $faker->e164PhoneNumber,
-//                    'address' => $faker->address,
-//                    'vk' => $faker->domainWord,
-//                    'tg' => $faker->domainWord,
-//                    'inst' => $faker->domainWord], $id);
-//            }
             $userId = $this->auth->register($_POST['email'], $_POST['password'], '', function ($selector, $token) {
 
-                $this->redirect->success('Вы успешно зарегистрировались. Пройдите на почту для подтверждения аккаунта', '/');
+                // Сделать отправку письма на почту
 
             });
-//            echo 'We have signed up a new user with the ID ' . $userId;
+
+            if ($userId && $returnId) {
+                return $userId;
+            }
+
+            $this->redirect->success('Вы успешно зарегистрировались. Пройдите на почту для подтверждения аккаунта', '/');
+
         } catch (\Delight\Auth\InvalidEmailException $e) {
             $this->redirect->error('Неверный адрес электронной почты', '/register');
         } catch (\Delight\Auth\InvalidPasswordException $e) {
@@ -49,7 +42,7 @@ class AccountController
         } catch (\Delight\Auth\UserAlreadyExistsException $e) {
             $this->redirect->error('Пользователь уже существует', '/register');
         } catch (\Delight\Auth\TooManyRequestsException $e) {
-            $this->redirect->error('Слишком много запрос, попробуйте позже', '/register');
+            $this->redirect->error('Слишком много запрос, попробуйте позже', '/');
         }
     }
 
@@ -83,12 +76,38 @@ class AccountController
         $this->redirect->success('', '/');
     }
 
+    public function addUser()
+    {
+        $dataPost = $_POST;
+
+        $id = $this->register(true);
+
+        if ($_FILES['avatar']) {
+            $newAvatar = $this->prepareImage();
+            $dataPost += $newAvatar;
+        }
+
+        $this->queryBuilder->update('users', $dataPost, $id);
+
+        $this->redirect->success('Пользователь успешно создан', '/');
+    }
+
     public function updateData($changeId)
     {
+        $dataPost = $_POST;
+
         if ($this->weNotAdminAndChangeAlienData($changeId)) {
             $this->redirect->error('Вы не являетесь администратором', '/');
         } else {
-            $result = $this->queryBuilder->update('users', $_POST, $changeId);
+
+            if ($_FILES['avatar']) {
+                Image::delete($dataPost['oldAvatar']);
+                $newAvatar = $this->prepareImage();
+                $dataPost += $newAvatar;
+                unset($dataPost['oldAvatar']);
+            }
+
+            $result = $this->queryBuilder->update('users', $dataPost, $changeId);
 
             if ($result) {
                 $this->redirect->success('Данные успешно обновлены', '/');
@@ -109,5 +128,18 @@ class AccountController
         return (!$this->auth->hasRole(Role::ADMIN) && $changeId != $this->auth->getUserId());
     }
 
+    /**
+     * Подготавливает изображение, если какая то ошибка делает редирект с ошибкой,
+     * иначе возвращает название изображения
+     * @return array|array[]
+     */
+    private function prepareImage()
+    {
+        $avatarLabel = Image::upload($_FILES['avatar']);
 
+        if (is_array($avatarLabel)) {
+            $this->redirect->error($avatarLabel['message'], '/');
+        }
+        return ['avatar' => $avatarLabel];
+    }
 }

@@ -15,12 +15,13 @@ class QueryBuilder
         $this->queryFactory = $queryFactory;
     }
 
-    public function getAll($table, $cols = ['*'])
+    public function getAll($table, $cols = ['*'], $orderBy = 'DESC')
     {
         $select = $this->queryFactory->newSelect();
 
         $select->cols($cols)
-            ->from($table);
+            ->from($table)
+            ->orderBy(["id {$orderBy}"]);
 
         $sth = $this->db->prepare($select->getStatement());
 

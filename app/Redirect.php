@@ -17,12 +17,14 @@ class Redirect
     {
         $this->flash->error($message);
         header("Location:{$path}");
+        die();
     }
 
     public function success($message, $path)
     {
         $this->flash->success($message);
         header("Location:{$path}");
+        die();
     }
 
 }

@@ -66,6 +66,12 @@ $dispatcher = FastRoute\simpleDispatcher(function (FastRoute\RouteCollector $r) 
 
     $r->addRoute('POST', '/update_status/{changeId:\d+}', ['App\controllers\AccountController', 'updateData']);
 
+    $r->addRoute('POST', '/update_media/{changeId:\d+}', ['App\controllers\AccountController', 'updateData']);
+
+    $r->addRoute('POST', '/update_security/{changeId:\d+}', ['App\controllers\AccountController', 'updateData']);
+
+    $r->addRoute('POST', '/add_user', ['App\controllers\AccountController', 'addUser']);
+
 
 });
 

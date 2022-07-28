@@ -3,6 +3,7 @@
 namespace App\controllers;
 
 use App\QueryBuilder;
+use Faker\Factory;
 use League\Plates\Engine;
 
 class HomeController
@@ -17,7 +18,7 @@ class HomeController
 
     public function main()
     {
-        $users = $this->queryBuilder->getAll('users', ['id', 'username', 'image', 'email', 'state', 'position', 'phone', 'address', 'vk', 'tg	', 'inst']);
+        $users = $this->queryBuilder->getAll('users', ['id', 'username', 'avatar', 'email', 'state', 'position', 'phone', 'address', 'vk', 'tg	', 'inst']);
 
         echo $this->templates->render('users', ['users' => $users]);
     }
@@ -34,7 +35,9 @@ class HomeController
 
     public function profile($id)
     {
-        echo $this->templates->render('profile');
+        $user = $this->queryBuilder->getOne('users', $id);
+
+        echo $this->templates->render('profile', ['user' => $user]);
     }
 
     public function status($id)
@@ -52,25 +55,30 @@ class HomeController
 
     public function user($id)
     {
-
         $user = $this->queryBuilder->getOne('users', $id);
 
         echo $this->templates->render('user', ['user' => $user]);
     }
 
-    public function createUser($id)
+    public function createUser()
     {
-        echo $this->templates->render('create_user');
+        $faker = Factory::create();
+
+        echo $this->templates->render('create_user', ['faker' => $faker]);
     }
 
     public function media($id)
     {
-        echo $this->templates->render('media');
+        $user = $this->queryBuilder->getOne('users', $id, ['id', 'avatar']);
+
+        echo $this->templates->render('media', ['user' => $user]);
     }
 
     public function security($id)
     {
-        echo $this->templates->render('security');
+        $user = $this->queryBuilder->getOne('users', $id, ['id', 'email']);
+
+        echo $this->templates->render('security',['user' => $user]);
     }
 
 
