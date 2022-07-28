@@ -1,4 +1,4 @@
-<?php $this->layout('template', ['title' => 'Изменить данные']); d($user)?>
+<?php $this->layout('template', ['title' => 'Изменить данные']);?>
     <main id="js-page-content" role="main" class="page-content mt-3">
         <div class="subheader">
             <h1 class="subheader-title">

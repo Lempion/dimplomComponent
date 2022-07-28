@@ -1,5 +1,4 @@
-<?php $this->layout('template', ['title' => 'Медиа']);
-d($user) ?>
+<?php $this->layout('template', ['title' => 'Медиа']);?>
 <main id="js-page-content" role="main" class="page-content mt-3">
     <div class="subheader">
         <h1 class="subheader-title">

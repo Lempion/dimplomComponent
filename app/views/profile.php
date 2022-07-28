@@ -1,4 +1,4 @@
-<?php $this->layout('template', ['title' => 'Профиль']);?>
+<?php $this->layout('template', ['title' => 'Профиль']); ?>
 <main id="js-page-content" role="main" class="page-content mt-3">
     <div class="subheader">
         <h1 class="subheader-title">
@@ -12,7 +12,7 @@
                 <div class="row no-gutters row-grid">
                     <div class="col-12">
                         <div class="d-flex flex-column align-items-center justify-content-center p-4">
-                            <img src="/img/demo/avatars/avatar-admin-lg.png"
+                            <img src="/user/avatars/<?php echo($user['avatar'] ?: 'default.png'); ?>"
                                  class="rounded-circle shadow-2 img-thumbnail" alt="">
                             <h5 class="mb-0 fw-700 text-center mt-3">
                                 <?php echo $user['username']; ?>
@@ -34,12 +34,12 @@
                     </div>
                     <div class="col-12">
                         <div class="p-3 text-center">
-                            <a href="tel:<?php echo $user['phone'];?>" class="mt-1 d-block fs-sm fw-400 text-dark">
-                                <i class="fas fa-mobile-alt text-muted mr-2"></i> <?php echo $user['phone'];?></a>
-                            <a href="mailto:<?php echo $user['email'];?>" class="mt-1 d-block fs-sm fw-400 text-dark">
-                                <i class="fas fa-mouse-pointer text-muted mr-2"></i> <?php echo $user['email'];?></a>
+                            <a href="tel:<?php echo $user['phone']; ?>" class="mt-1 d-block fs-sm fw-400 text-dark">
+                                <i class="fas fa-mobile-alt text-muted mr-2"></i> <?php echo $user['phone']; ?></a>
+                            <a href="mailto:<?php echo $user['email']; ?>" class="mt-1 d-block fs-sm fw-400 text-dark">
+                                <i class="fas fa-mouse-pointer text-muted mr-2"></i> <?php echo $user['email']; ?></a>
                             <address class="fs-sm fw-400 mt-4 text-muted">
-                                <i class="fas fa-map-pin mr-2"></i> <?php echo $user['address'];?>
+                                <i class="fas fa-map-pin mr-2"></i> <?php echo $user['address']; ?>
                             </address>
                         </div>
                     </div>

@@ -5,141 +5,110 @@ namespace App\controllers;
 use App\Image;
 use App\QueryBuilder;
 use App\Redirect;
+use App\User;
 use Delight\Auth\Auth;
 use Delight\Auth\Role;
 use Faker\Factory;
 
 class AccountController
 {
-    private $auth, $redirect, $queryBuilder;
+    private $redirect, $user;
 
-    public function __construct(Auth $auth, Redirect $redirect, QueryBuilder $queryBuilder)
+    public function __construct(Redirect $redirect, User $user)
     {
-        $this->auth = $auth;
         $this->redirect = $redirect;
-        $this->queryBuilder = $queryBuilder;
+        $this->user = $user;
     }
 
-    public function register($returnId = false)
+    public function register()
     {
-        try {
-            $userId = $this->auth->register($_POST['email'], $_POST['password'], '', function ($selector, $token) {
+        $result = $this->user->register($_POST);
 
-                // Сделать отправку письма на почту
+        $this->redirect->message($result[1], $result[0], $result[2]);
 
-            });
+    }
 
-            if ($userId && $returnId) {
-                return $userId;
-            }
-
-            $this->redirect->success('Вы успешно зарегистрировались. Пройдите на почту для подтверждения аккаунта', '/');
-
-        } catch (\Delight\Auth\InvalidEmailException $e) {
-            $this->redirect->error('Неверный адрес электронной почты', '/register');
-        } catch (\Delight\Auth\InvalidPasswordException $e) {
-            $this->redirect->error('Неверный пароль', '/register');
-        } catch (\Delight\Auth\UserAlreadyExistsException $e) {
-            $this->redirect->error('Пользователь уже существует', '/register');
-        } catch (\Delight\Auth\TooManyRequestsException $e) {
-            $this->redirect->error('Слишком много запрос, попробуйте позже', '/');
-        }
+    public function removeUser($id)
+    {
+        $result = $this->user->remove($id);
+        $this->redirect->message($result[1], $result[0], '/');
     }
 
     public function login()
     {
-        if ($_POST['remember'] == 'on') {
-            $rememberDuration = (int)(60 * 60 * 24 * 365.25);
-        } else {
-            $rememberDuration = null;
-        }
+        $result = $this->user->login($_POST);
 
-        try {
-            $this->auth->login($_POST['email'], $_POST['password'], $rememberDuration);
-
-            $this->redirect->success('Вы успешно авторизовались', '/');
-
-        } catch (\Delight\Auth\InvalidEmailException $e) {
-            $this->redirect->error('Неверный адрес электронной почты или пароль', '/login');
-        } catch (\Delight\Auth\InvalidPasswordException $e) {
-            $this->redirect->error('Неверный адрес электронной почты или пароль', '/login');
-        } catch (\Delight\Auth\EmailNotVerifiedException $e) {
-            $this->redirect->error('Адрес электронной почты не подтвержден', '/login');
-        } catch (\Delight\Auth\TooManyRequestsException $e) {
-            $this->redirect->error('Слишком много запрос, попробуйте позже', '/login');
-        }
+        $this->redirect->message($result[1], $result[0], $result[2]);
     }
 
     public function logout()
     {
-        $this->auth->logOut();
+        $this->user->logOut();
         $this->redirect->success('', '/');
+    }
+
+    public function verificationEmail()
+    {
+        $result = $this->user->verificationEmail($_GET['selector'], $_GET['token']);
+        $this->redirect->message($result[1], $result[0], $result[2]);
     }
 
     public function addUser()
     {
-        $dataPost = $_POST;
 
-        $id = $this->register(true);
+        $result = $this->user->register($_POST, true);
 
-        if ($_FILES['avatar']) {
-            $newAvatar = $this->prepareImage();
-            $dataPost += $newAvatar;
-        }
+        if (!isset($result['id'])) $this->redirect->message($result[1], $result[0], $result[2]);
 
-        $this->queryBuilder->update('users', $dataPost, $id);
+        $result = $this->user->updateDate($result['id'], $_POST, $_FILES);
 
-        $this->redirect->success('Пользователь успешно создан', '/');
+        ($result === true ? $this->redirect->success('Пользователь успешно создан', '/') : $this->redirect->message($result[1], $result[0], $result[2]));
+
     }
 
     public function updateData($changeId)
     {
-        $dataPost = $_POST;
+        $result = $this->user->updateDate($changeId, $_POST);
 
-        if ($this->weNotAdminAndChangeAlienData($changeId)) {
-            $this->redirect->error('Вы не являетесь администратором', '/');
-        } else {
+        ($result === true ? $this->redirect->success('Данные успешно обновлены', '/') : $this->redirect->message($result[1], $result[0], $result[2]));
 
-            if ($_FILES['avatar']) {
-                Image::delete($dataPost['oldAvatar']);
-                $newAvatar = $this->prepareImage();
-                $dataPost += $newAvatar;
-                unset($dataPost['oldAvatar']);
+    }
+
+    public function updateStatus($changeId)
+    {
+        $result = $this->user->updateDate($changeId, $_POST);
+
+        ($result === true ? $this->redirect->success('Статус успешно обновлен', '/') : $this->redirect->message($result[1], $result[0], $result[2]));
+
+    }
+
+    public function updateMedia($changeId)
+    {
+        $result = $this->user->updateDate($changeId, [], $_FILES);
+
+        ($result === true ? $this->redirect->success('Изображение успешно обновлено', '/') : $this->redirect->message($result[1], $result[0], $result[2]));
+
+    }
+
+    public function updateSecurity($changeId)
+    {
+        $message = [];
+
+        if ($_POST['newEmail'] !== $_POST['oldEmail']) {
+            $message[] = $this->user->changeEmail($_POST['newEmail'], $changeId);
+        }
+
+        if ($_POST['password'] && $_POST['passwordConfirm']) {
+
+            if ($_POST['password'] !== $_POST['passwordConfirm']) {
+                $this->redirect->error('Пароли не совпадают', "/security/{$changeId}");
             }
 
-            $result = $this->queryBuilder->update('users', $dataPost, $changeId);
-
-            if ($result) {
-                $this->redirect->success('Данные успешно обновлены', '/');
-            } else {
-                $this->redirect->error('Ошибка обновления данных', '/');
-            }
-
+            $message[] = $this->user->changePassword($_POST['password'], $changeId);
         }
+
+        $this->redirect->arrFlash($message, '/');
+
     }
 
-    /**
-     * Проверяем на условие (Мы не админ и меняем чужие данные?)
-     * @param $changeId
-     * @return bool
-     */
-    private function weNotAdminAndChangeAlienData($changeId)
-    {
-        return (!$this->auth->hasRole(Role::ADMIN) && $changeId != $this->auth->getUserId());
-    }
-
-    /**
-     * Подготавливает изображение, если какая то ошибка делает редирект с ошибкой,
-     * иначе возвращает название изображения
-     * @return array|array[]
-     */
-    private function prepareImage()
-    {
-        $avatarLabel = Image::upload($_FILES['avatar']);
-
-        if (is_array($avatarLabel)) {
-            $this->redirect->error($avatarLabel['message'], '/');
-        }
-        return ['avatar' => $avatarLabel];
-    }
 }

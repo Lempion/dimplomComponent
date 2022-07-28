@@ -8,7 +8,8 @@
     "aura/sqlquery": "^2.8",
     "tamtamchik/simple-flash": "^2.0",
     "fzaninotto/faker": "^1.9",
-    "samayo/bulletproof": "^2.0"
+    "samayo/bulletproof": "^2.0",
+    "eoghanobrien/php-simple-mail": "^1.7"
   },
   "autoload": {
     "psr-4": {

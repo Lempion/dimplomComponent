@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "d07a93d10c2164418ddc0fa41dcd1532",
+    "content-hash": "7c051cb93872a67c38d3207b5969ee16",
     "packages": [
         {
             "name": "aura/sqlquery",
@@ -296,6 +296,57 @@
                 "source": "https://github.com/delight-im/PHP-HTTP/tree/v2.1.0"
             },
             "time": "2021-10-12T18:52:29+00:00"
+        },
+        {
+            "name": "eoghanobrien/php-simple-mail",
+            "version": "1.7.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/eoghanobrien/php-simple-mail.git",
+                "reference": "9b8d4c01c7c0cac769ba42ccd08a73ecee855825"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/eoghanobrien/php-simple-mail/zipball/9b8d4c01c7c0cac769ba42ccd08a73ecee855825",
+                "reference": "9b8d4c01c7c0cac769ba42ccd08a73ecee855825",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.2.0"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "~4.8",
+                "squizlabs/php_codesniffer": "~2.8"
+            },
+            "type": "library",
+            "autoload": {
+                "classmap": [
+                    "class.simple_mail.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Eoghan O'Brien",
+                    "email": "eoghan@eoghanobrien.com",
+                    "homepage": "http://www.eoghanobrien.com",
+                    "role": "Developer"
+                }
+            ],
+            "description": "Provides a simple, chainable wrapper for creating and sending emails using the PHP mail() function.",
+            "homepage": "https://github.com/eoghanobrien/php-simple-mail",
+            "keywords": [
+                "email",
+                "php5"
+            ],
+            "support": {
+                "issues": "https://github.com/eoghanobrien/php-simple-mail/issues",
+                "source": "https://github.com/eoghanobrien/php-simple-mail/tree/master"
+            },
+            "time": "2018-03-16T19:29:23+00:00"
         },
         {
             "name": "fzaninotto/faker",

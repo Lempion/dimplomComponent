@@ -1,5 +1,4 @@
-<?php $this->layout('template', ['title' => 'Безопасность']);
-d($user) ?>
+<?php $this->layout('template', ['title' => 'Безопасность']); ?>
 <main id="js-page-content" role="main" class="page-content mt-3">
     <div class="subheader">
         <h1 class="subheader-title">
@@ -7,7 +6,8 @@ d($user) ?>
         </h1>
 
     </div>
-    <form action="/">
+    <?php echo flash();?>
+    <form action="/update_security/<?php echo $user['id']; ?>" method="post">
         <div class="row">
             <div class="col-xl-6">
                 <div id="panel-1" class="panel">
@@ -19,7 +19,7 @@ d($user) ?>
                             <!-- email -->
                             <div class="form-group">
                                 <label class="form-label" for="simpleinput">Email</label>
-                                <input type="text" name="email" id="simpleinput" class="form-control"
+                                <input type="text" name="newEmail" id="simpleinput" class="form-control"
                                        value="<?php echo $user['email']; ?>">
                             </div>
                             <input type="hidden" name="oldEmail" value="<?php echo $user['email']; ?>">
@@ -27,13 +27,13 @@ d($user) ?>
                             <!-- password -->
                             <div class="form-group">
                                 <label class="form-label" for="simpleinput">Пароль</label>
-                                <input type="password" id="simpleinput" class="form-control">
+                                <input type="password" name="password" id="simpleinput" class="form-control">
                             </div>
 
                             <!-- password confirmation-->
                             <div class="form-group">
                                 <label class="form-label" for="simpleinput">Подтверждение пароля</label>
-                                <input type="password" id="simpleinput" class="form-control">
+                                <input type="password" name="passwordConfirm" id="simpleinput" class="form-control">
                             </div>
 
 

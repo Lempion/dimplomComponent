@@ -64,14 +64,17 @@ $dispatcher = FastRoute\simpleDispatcher(function (FastRoute\RouteCollector $r) 
 
     $r->addRoute('POST', '/update_data/{changeId:\d+}', ['App\controllers\AccountController', 'updateData']);
 
-    $r->addRoute('POST', '/update_status/{changeId:\d+}', ['App\controllers\AccountController', 'updateData']);
+    $r->addRoute('POST', '/update_status/{changeId:\d+}', ['App\controllers\AccountController', 'updateStatus']);
 
-    $r->addRoute('POST', '/update_media/{changeId:\d+}', ['App\controllers\AccountController', 'updateData']);
+    $r->addRoute('POST', '/update_media/{changeId:\d+}', ['App\controllers\AccountController', 'updateMedia']);
 
-    $r->addRoute('POST', '/update_security/{changeId:\d+}', ['App\controllers\AccountController', 'updateData']);
+    $r->addRoute('POST', '/update_security/{changeId:\d+}', ['App\controllers\AccountController', 'updateSecurity']);
 
     $r->addRoute('POST', '/add_user', ['App\controllers\AccountController', 'addUser']);
 
+    $r->addRoute('GET', '/remove_user/{id:\d+}', ['App\controllers\AccountController', 'removeUser']);
+
+    $r->addRoute('GET', '/verif_email/', ['App\controllers\AccountController', 'verificationEmail']);
 
 });
 
