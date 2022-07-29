@@ -74,7 +74,7 @@ $dispatcher = FastRoute\simpleDispatcher(function (FastRoute\RouteCollector $r) 
 
     $r->addRoute('GET', '/remove_user/{id:\d+}', ['App\controllers\AccountController', 'removeUser']);
 
-    $r->addRoute('GET', '/verif_email/', ['App\controllers\AccountController', 'verificationEmail']);
+    $r->addRoute('GET', '/verification_email/', ['App\controllers\AccountController', 'verificationEmail']);
 
 });
 

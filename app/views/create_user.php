@@ -2,7 +2,7 @@
 <main id="js-page-content" role="main" class="page-content mt-3">
     <div class="subheader">
         <h1 class="subheader-title">
-            <i class='subheader-icon fal fa-plus-circle'></i> Добавить пользователя
+            <i class="fa-solid fa-circle-plus"></i> Добавить пользователя
         </h1>
 
 

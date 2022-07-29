@@ -2,7 +2,7 @@
 <main id="js-page-content" role="main" class="page-content mt-3">
     <div class="subheader">
         <h1 class="subheader-title">
-            <i class='subheader-icon fal fa-sun'></i> Установить статус
+            <i class="fa fa-sun" aria-hidden="true"></i> Установить статус
         </h1>
 
     </div>

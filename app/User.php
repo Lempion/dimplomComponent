@@ -21,7 +21,7 @@ class User
     {
         try {
             $userId = $this->auth->register($data['email'], $data['password'], '', function ($selector, $token) {
-                $this->messageVerification = "<p>Для подтверждения почты, пройдите по ссылке http://diplom.proj.ru/verif_email/?selector=$selector&token=$token</p>";
+                $this->messageVerification = "<p>Для подтверждения почты, пройдите по ссылке http://diplom.proj.ru/verification_email/?selector=$selector&token=$token</p>";
             });
 
             $this->mailer->send($data['email'], 'Верификация', $this->messageVerification);
@@ -132,7 +132,7 @@ class User
             }
 
             $this->auth->changeEmail($newEmail, function ($selector, $token) {
-                $this->messageVerification = "<p>Для привязки этой почты, перейдите по ссылке http://diplom.proj.ru/verif_email/?selector=$selector&token=$token</p>";
+                $this->messageVerification = "<p>Для привязки этой почты, перейдите по ссылке http://diplom.proj.ru/verification_email/?selector=$selector&token=$token</p>";
             });
 
             if ($oldId !== $this->userId()) {
@@ -206,6 +206,11 @@ class User
     public function userId()
     {
         return $this->auth->getUserId();
+    }
+
+    public function isLoggedIn()
+    {
+        return $this->auth->isLoggedIn();
     }
 
     /**

@@ -6,6 +6,7 @@ use App\Image;
 use App\QueryBuilder;
 use App\Redirect;
 use App\User;
+use App\Validator;
 use Delight\Auth\Auth;
 use Delight\Auth\Role;
 use Faker\Factory;
@@ -22,6 +23,9 @@ class AccountController
 
     public function register()
     {
+        $answer = Validator::validate($_POST, ['email' => ['required', 'email'], 'password' => ['required', 'min_length(5)', 'max_length(20)']]);
+        if ($answer !== true) $this->redirect->arrFlash($answer, '/register');
+
         $result = $this->user->register($_POST);
 
         $this->redirect->message($result[1], $result[0], $result[2]);
@@ -36,6 +40,9 @@ class AccountController
 
     public function login()
     {
+        $answer = Validator::validate($_POST, ['email' => ['required', 'email'], 'password' => ['required']]);
+        if ($answer !== true) $this->redirect->arrFlash($answer, '/login');
+
         $result = $this->user->login($_POST);
 
         $this->redirect->message($result[1], $result[0], $result[2]);
@@ -55,6 +62,8 @@ class AccountController
 
     public function addUser()
     {
+        $answer = Validator::validate($_POST, ['email' => ['required', 'email'], 'password' => ['required', 'min_length(5)', 'max_length(20)']]);
+        if ($answer !== true) $this->redirect->arrFlash($answer, '/create_user');
 
         $result = $this->user->register($_POST, true);
 

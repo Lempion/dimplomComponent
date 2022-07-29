@@ -2,7 +2,7 @@
     <main id="js-page-content" role="main" class="page-content mt-3">
         <div class="subheader">
             <h1 class="subheader-title">
-                <i class='subheader-icon fal fa-plus-circle'></i> Редактировать
+                <i class="fa fa-edit" aria-hidden="true"></i> Редактировать
             </h1>
 
         </div>

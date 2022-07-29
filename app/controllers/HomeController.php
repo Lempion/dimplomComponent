@@ -3,17 +3,22 @@
 namespace App\controllers;
 
 use App\QueryBuilder;
+use App\Redirect;
+use App\User;
+use Delight\Auth\Role;
 use Faker\Factory;
 use League\Plates\Engine;
 
 class HomeController
 {
-    private $templates, $queryBuilder;
+    private $templates, $queryBuilder, $user, $redirect;
 
-    public function __construct(Engine $engine, QueryBuilder $queryBuilder)
+    public function __construct(Engine $engine, QueryBuilder $queryBuilder, User $user, Redirect $redirect)
     {
         $this->templates = $engine;
+        $this->user = $user;
         $this->queryBuilder = $queryBuilder;
+        $this->redirect = $redirect;
     }
 
     public function main()
@@ -25,11 +30,15 @@ class HomeController
 
     public function register()
     {
+        if ($this->user->isLoggedIn()) $this->redirect->success('', '/');
+
         echo $this->templates->render('register');
     }
 
     public function login()
     {
+        if ($this->user->isLoggedIn()) $this->redirect->success('', '/');
+
         echo $this->templates->render('login');
     }
 
@@ -42,6 +51,8 @@ class HomeController
 
     public function status($id)
     {
+        if (!$this->user->hasRole(Role::ADMIN) && $id != $this->user->userId()) $this->redirect->success('', '/');
+
         $user = $this->queryBuilder->getOne('users', $id);
 
         // Нужно найти в массиве нужный элемент и поставить его первым, чтобы потом верно отрисовать в шаблоне
@@ -55,6 +66,8 @@ class HomeController
 
     public function user($id)
     {
+        if (!$this->user->hasRole(Role::ADMIN) && $id != $this->user->userId()) $this->redirect->success('', '/');
+
         $user = $this->queryBuilder->getOne('users', $id);
 
         echo $this->templates->render('user', ['user' => $user]);
@@ -62,6 +75,8 @@ class HomeController
 
     public function createUser()
     {
+        if (!$this->user->hasRole(Role::ADMIN)) $this->redirect->success('', '/');
+
         $faker = Factory::create();
 
         echo $this->templates->render('create_user', ['faker' => $faker]);
@@ -69,6 +84,8 @@ class HomeController
 
     public function media($id)
     {
+        if (!$this->user->hasRole(Role::ADMIN) && $id != $this->user->userId()) $this->redirect->success('', '/');
+
         $user = $this->queryBuilder->getOne('users', $id, ['id', 'avatar']);
 
         echo $this->templates->render('media', ['user' => $user]);
@@ -76,9 +93,11 @@ class HomeController
 
     public function security($id)
     {
+        if (!$this->user->hasRole(Role::ADMIN) && $id != $this->user->userId()) $this->redirect->success('', '/');
+
         $user = $this->queryBuilder->getOne('users', $id, ['id', 'email']);
 
-        echo $this->templates->render('security',['user' => $user]);
+        echo $this->templates->render('security', ['user' => $user]);
     }
 
 
