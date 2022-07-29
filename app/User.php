@@ -3,6 +3,7 @@
 namespace App;
 
 use App\exceptions\CouldNotSendEmailException;
+use App\exceptions\WeNotAdminAndChangeAlienDataException;
 use Delight\Auth\Auth;
 use Delight\Auth\Role;
 
@@ -46,17 +47,17 @@ class User
 
     public function remove($id)
     {
-        if ($this->weNotAdminAndChangeAlienData($id)) {
-            return ['error', 'Вы не являетесь администратором'];
-        }
-
         try {
+            $this->weNotAdminAndChangeAlienData($id);
+
             $this->auth->admin()->deleteUserById($id);
             $avatar = $this->queryBuilder->getOne('users', $id, ['avatar']);
             Image::delete($avatar['avatar']);
             return ['success', 'Пользователь удалён'];
         } catch (\Delight\Auth\UnknownIdException $e) {
             return ['error', 'Неизвестный ID'];
+        } catch (WeNotAdminAndChangeAlienDataException $e) {
+            return ['error' => 'Вы не являетесь администратором'];
         }
     }
 
@@ -93,27 +94,30 @@ class User
 
     public function updateDate($id, $post = [], $files = [])
     {
-        if ($this->weNotAdminAndChangeAlienData($id)) {
+        try {
+            $this->weNotAdminAndChangeAlienData($id);
+
+            if ($files['avatar']) {
+                $oldAvatar = $this->queryBuilder->getOne('users', $id, ['avatar']);
+
+                if ($oldAvatar) {
+                    Image::delete($oldAvatar['avatar']);
+                }
+
+                $newAvatar = $this->prepareImage();
+                if (!isset($newAvatar['avatar'])) {
+                    return $newAvatar;
+                } else {
+                    $post += $newAvatar;
+                }
+
+            }
+
+            $this->queryBuilder->update('users', $post, $id);
+        } catch (WeNotAdminAndChangeAlienDataException $e) {
             return ['error', 'Вы не являетесь администратором', '/'];
         }
 
-        if ($files['avatar']) {
-            $oldAvatar = $this->queryBuilder->getOne('users', $id, ['avatar']);
-
-            if ($oldAvatar) {
-                Image::delete($oldAvatar['avatar']);
-            }
-
-            $newAvatar = $this->prepareImage();
-            if (!isset($newAvatar['avatar'])) {
-                return $newAvatar;
-            } else {
-                $post += $newAvatar;
-            }
-
-        }
-
-        $this->queryBuilder->update('users', $post, $id);
 
         return true;
     }
@@ -122,11 +126,9 @@ class User
     {
         $oldId = $this->auth->getUserId();
 
-        if ($this->weNotAdminAndChangeAlienData($changeId)) {
-            return ['error' => 'Вы не являетесь администратором'];
-        }
-
         try {
+            $this->weNotAdminAndChangeAlienData($changeId);
+
             if ($this->auth->hasRole(Role::ADMIN)) {
                 $this->auth->admin()->logInAsUserById($changeId);
             }
@@ -156,6 +158,8 @@ class User
             $message = ['error' => 'Слишком много запросов'];
         } catch (CouldNotSendEmailException $e) {
             $message = ['error', 'Не удалось отправит сообщение на почту, обратитесь к администратору'];
+        } catch (WeNotAdminAndChangeAlienDataException $e) {
+            $message = ['error' => 'Вы не являетесь администратором'];
         }
 
         return $message;
@@ -180,12 +184,9 @@ class User
 
     public function changePassword($newPassword, $changeId)
     {
-
-        if ($this->weNotAdminAndChangeAlienData($changeId)) {
-            return ['error' => 'Вы не являетесь администратором'];
-        }
-
         try {
+            $this->weNotAdminAndChangeAlienData($changeId);
+
             $this->auth->admin()->changePasswordForUserById($changeId, $newPassword);
 
             $message = ['success' => 'Пароль успешно изменен.'];
@@ -193,6 +194,8 @@ class User
             $message = ['error' => 'Неизвестный ID'];
         } catch (\Delight\Auth\InvalidPasswordException $e) {
             $message = ['error' => 'Неверный пароль'];
+        } catch (WeNotAdminAndChangeAlienDataException $e) {
+            $message = ['error' => 'Вы не являетесь администратором'];
         }
 
         return $message;
@@ -216,11 +219,12 @@ class User
     /**
      * Проверяем на условие (Мы не админ и меняем чужие данные?)
      * @param $changeId
-     * @return bool
      */
     private function weNotAdminAndChangeAlienData($changeId)
     {
-        return (!$this->hasRole(Role::ADMIN) && $changeId != $this->userId());
+        if (!$this->hasRole(Role::ADMIN) && $changeId != $this->userId()) {
+            throw new WeNotAdminAndChangeAlienDataException();
+        }
     }
 
     /**
